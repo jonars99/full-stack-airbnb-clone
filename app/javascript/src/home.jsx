@@ -2,9 +2,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Home = () => (
-  <h1>Home page</h1>
-)
+const Home = () => {
+  console.log(process.env.TEST_ENV_VARIABLE);
+  return <h1>Home page</h1>;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
