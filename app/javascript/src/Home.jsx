@@ -1,10 +1,16 @@
-// home.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Layout from '@src/Layout';
 
-const Home = () => (
-  <h1>Home page</h1>
-)
+const Home = () => {
+  return (
+    <Layout>
+      <div className="container">
+        <h1>Home</h1>
+      </div>
+    </Layout>
+  )
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
