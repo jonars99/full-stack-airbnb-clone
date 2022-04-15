@@ -28,6 +28,23 @@ const Home = () => {
       })
   }, [])
 
+  const loadMore = () => {
+    if (homePageData.next_page === null) {
+      return;
+    }
+    setHomePageData({...homePageData, loading: true})
+    fetch(`/api/properties?page=${homePageData.next_page}`)
+      .then(handleErrors)
+      .then(data => {
+        setHomePageData({ 
+          properties: homePageData.properties.concat(data.properties),
+          total_pages: data.total_pages,
+          next_page: data.next_page,
+          loading: false,
+        })
+      })
+  }
+
   return (
     <Layout>
       <div className="container pt-4">
@@ -43,7 +60,7 @@ const Home = () => {
                     backgroundImage: `url(${property.image_url})` }} ></div>
                   <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
                   <h6 className="mb-0">{property.title}</h6>
-                  <p className="mb-0"><small>${property.per_per_night} USD/night</small></p>
+                  <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
                 </a>
               </div>
             )
@@ -51,6 +68,14 @@ const Home = () => {
         </div>
 
         {homePageData.loading && <p className="text-center py-3">loading...</p>}
+
+        {(homePageData.loading || homePageData.next_page === null) || 
+          <div className="text-center">
+            <button className="btn btn-light mb-4"
+              onClick={loadMore}
+            >load more</button>
+          </div>
+        }
 
       </div>
     </Layout>
