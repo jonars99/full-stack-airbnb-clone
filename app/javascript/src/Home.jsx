@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Layout from '@src/Layout';
 import { handleErrors } from '@utils/fetchHelper';
-import './home.scss';
+import './stylesheets/home.scss';
 
 const Home = () => {
 
