@@ -22,7 +22,7 @@ const Home = () => {
         setHomePageData({
           properties: data.properties,
           total_pages: data.total_pages,
-          next_pages: data.next_page,
+          next_page: data.next_page,
           loading: false,
         })
       })
