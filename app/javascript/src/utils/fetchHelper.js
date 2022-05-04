@@ -1,6 +1,6 @@
 /* For use with window.fetch */
 
-export function jsonHeader(option = {}) {
+export function jsonHeader(options = {}) {
   return Object.assign(options, {
     Accept: 'application/json',
     'Content-Type': 'application/json',
