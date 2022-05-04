@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_15_094154) do
+ActiveRecord::Schema.define(version: 2022_04_21_145627) do
+
+  create_table "bookings", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "user_id"
+    t.integer "property_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["property_id"], name: "index_bookings_on_property_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
 
   create_table "properties", force: :cascade do |t|
     t.string "title"
@@ -46,6 +57,8 @@ ActiveRecord::Schema.define(version: 2022_04_15_094154) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "bookings", "properties"
+  add_foreign_key "bookings", "users"
   add_foreign_key "properties", "users"
   add_foreign_key "sessions", "users"
 end
