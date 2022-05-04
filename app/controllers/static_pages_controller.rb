@@ -8,4 +8,8 @@ class StaticPagesController < ApplicationController
     render 'property'
   end
 
+  def login
+    render 'login'
+  end
+
 end
