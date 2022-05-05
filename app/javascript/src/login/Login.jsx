@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '@src/Layout';
 import LoginWidget from './LoginWidget';
 import SignUpWidget from './SignUpWidget';
-import { safeCredentials, handleErrors } from '@utils/fetchHelper';
+import { handleErrors } from '@utils/fetchHelper';
 import '../stylesheets/login.scss';
 
 const Login = () => {
