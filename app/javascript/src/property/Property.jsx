@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM, { render } from 'react-dom';
 import Layout from '@src/Layout';
 import { handleErrors } from '@utils/fetchHelper';
-import './stylesheets/property.scss';
+import '../stylesheets/property.scss';
 
 const Property = (props) => {
 
@@ -77,13 +76,4 @@ const Property = (props) => {
   )
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const node = document.getElementById('params');
-  const data = JSON.parse(node.getAttribute('data-params'));
-
-  ReactDOM.render(
-    <Property property_id={data.property_id} />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})
+export default Property;
