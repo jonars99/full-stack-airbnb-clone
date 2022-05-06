@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@src/Layout';
 import { handleErrors } from '@utils/fetchHelper';
+import BookingWidget from './BookingWidget';
 import '../stylesheets/property.scss';
 
 const Property = (props) => {
@@ -50,6 +51,7 @@ const Property = (props) => {
           <div className="property-image mb-3" style={{ backgroundImage: `url(${image_url})` }} />
           <div className="container">
             <div className="row">
+
               <div className="info col-12 col-lg-8">
                 <div className="mb-3">
                   <h3 className="mb-0">{title}</h3>
@@ -68,6 +70,11 @@ const Property = (props) => {
                 <hr />
                 <p>{description}</p>
               </div>
+
+              <div className="col-12 col-lg-5">
+                <BookingWidget property_id={id} price_per_night={price_per_night} />
+              </div>
+
             </div>
           </div>
         </div>
