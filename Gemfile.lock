@@ -189,6 +189,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    stripe (5.55.0)
     thor (1.2.1)
     tilt (2.0.10)
     tzinfo (2.0.4)
@@ -234,6 +235,7 @@ DEPENDENCIES
   selenium-webdriver (>= 4.0.0.rc1)
   spring
   sqlite3 (~> 1.4.2)
+  stripe
   tzinfo-data
   web-console (>= 4.1.0)
   webdrivers
