@@ -7,8 +7,12 @@ import 'react-dates/lib/css/_datepicker.css';
 const BookingWidget = ({property_id, price_per_night}) => {
 
   // states
-  const [bookingData, setBookingData] = useState({
+  const [userStatus, setUserStatus] = useState({
     authenticated: false,
+  })
+
+  const [bookingData, setBookingData] = useState({
+    existingBookings: [],
     focusedInput: null,
     loading: false,
     error: false,
@@ -17,7 +21,30 @@ const BookingWidget = ({property_id, price_per_night}) => {
   const [dates, setDates] = useState({
     startDate: null,
     endDate: null
-  })
+  });
+
+  // authenticate user
+
+  const isUserLoggedIn = () => {
+    fetch('/api/authenticated')
+    .then(handleErrors)
+    .then(data => {
+      setUserStatus({
+        authenticated: data.authenticated,
+      });
+    });
+  };
+
+  // get existing bookings
+  const getBookings = () => {
+    fetch(`/api/properties/${property_id}/bookings`)
+    .then(handleErrors)
+    .then(data => {
+      setBookingData({...bookingData,
+        existingBookings: data.bookings,
+      })
+    });
+  };
   
   // handlers
   const handleDatesChange = ({startDate, endDate}) => setDates({startDate, endDate})
@@ -26,9 +53,6 @@ const BookingWidget = ({property_id, price_per_night}) => {
   const submitBooking = (e) => {
     if (e) {e.preventDefault()}
     const { startDate, endDate } = dates
-    console.log(startDate.format('MMM DD YYYY'), endDate.format('MMM DD YYYY'));
-    console.log('property', property_id)
-
     fetch('/api/bookings', safeCredentials({
       method: 'POST',
       body: JSON.stringify({
@@ -40,27 +64,22 @@ const BookingWidget = ({property_id, price_per_night}) => {
       })
     }))
       .then(handleErrors)
-      .then(response => {
-        console.log(response)
-      })
       .catch(error => {
         console.log(error)
       })
   };
 
-  // check user logged in
+  const isDayBlocked = day => bookingData.existingBookings.filter(booking => day.isBetween(booking.start_date, booking.end_date, null, '[)')).length > 0
+
+  // check user logged in and get existing bookings
   useEffect(() => {
-    fetch('/api/authenticated')
-      .then(handleErrors)
-      .then(data => {
-        setBookingData({...bookingData,
-          authenticated: data.authenticated,
-        })
-      })
+    isUserLoggedIn()
+    getBookings();
   }, []);
 
   // variables
-  const { authenticated, focusedInput } = bookingData
+  const { authenticated } = userStatus
+  const { focusedInput } = bookingData
   const { startDate, endDate } = dates
   let nights;
   if (startDate && endDate) {
@@ -92,6 +111,7 @@ const BookingWidget = ({property_id, price_per_night}) => {
         onDatesChange={handleDatesChange}
         focusedInput={focusedInput}
         onFocusChange={handleFocusChange}
+        isDayBlocked={isDayBlocked}
         numberOfMonths={1}
       />
       </div>
