@@ -12,7 +12,7 @@ module Api
       begin
         @booking = Booking.create({ 
           user_id: session.user.id, 
-          property_id: property_id, 
+          property_id: params[:booking][:property_id], 
           start_date: params[:booking][:start_date], 
           end_date: params[:booking][:end_date]
         })

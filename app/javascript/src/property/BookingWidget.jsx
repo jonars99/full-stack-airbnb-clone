@@ -31,7 +31,7 @@ const BookingWidget = ({property_id, price_per_night}) => {
 
     fetch('/api/bookings', safeCredentials({
       method: 'POST',
-      data: JSON.stringify({
+      body: JSON.stringify({
         booking: {
           property_id: property_id,
           start_date: startDate.format('MMM DD YYYY'),
