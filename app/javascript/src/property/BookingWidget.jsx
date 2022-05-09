@@ -24,7 +24,6 @@ const BookingWidget = ({property_id, price_per_night}) => {
   });
 
   // authenticate user
-
   const isUserLoggedIn = () => {
     fetch('/api/authenticated')
     .then(handleErrors)
@@ -97,12 +96,13 @@ const BookingWidget = ({property_id, price_per_night}) => {
     );
   };
 
+  // else they can make a booking
   return(
     <div className="border p-4 mb-4">
     <form onSubmit={submitBooking}>
       <h5>${price_per_night} <small>per night</small></h5>
       <hr/>
-      <div className="mb-5">
+      <div style={{ marginBottom: focusedInput ? '400px': '2rem' }}>
       <DateRangePicker
         startDate={startDate}
         startDateId="start_date"
