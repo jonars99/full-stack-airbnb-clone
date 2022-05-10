@@ -49,6 +49,27 @@ const BookingWidget = ({property_id, price_per_night}) => {
   const handleDatesChange = ({startDate, endDate}) => setDates({startDate, endDate})
   const handleFocusChange = (focusedInput) => setBookingData({...bookingData, focusedInput})
 
+  // initiate stripe checkout after booking
+  const initiateStripeCheckout = (booking_id) => {
+    return fetch(`/api/charges?booking_id=${booking_id}&cancel_url=${window.location.pathname}`, safeCredentials({
+      method: 'POST',
+    }))
+    .then(handleErrors)
+    .then(response => {
+      const stripe = Stripe(`${process.env.STRIPE_PUBLISHABLE_KEY}`);
+
+      stripe.redirectToCheckout({
+        sessionId: response.charge.checkout_session_id,
+      }).then((result) => {
+        console.log('result error', result.error.message);
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  // submit a booking
   const submitBooking = (e) => {
     if (e) {e.preventDefault()}
     const { startDate, endDate } = dates
@@ -63,6 +84,9 @@ const BookingWidget = ({property_id, price_per_night}) => {
       })
     }))
       .then(handleErrors)
+      .then(response => {
+        return initiateStripeCheckout(response.booking.id)
+      })
       .catch(error => {
         console.log(error)
       })

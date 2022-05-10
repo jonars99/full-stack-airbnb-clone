@@ -17,4 +17,7 @@ Rails.application.routes.draw do
 
   end
 
+  # stripe webhook
+  post 'charges/mark_complete' => 'charges#mark_complete'
+
 end
