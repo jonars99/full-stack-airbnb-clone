@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
-import Login from './Login';
 
 const SignUpWidget = ({toggle}) => {
 

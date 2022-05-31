@@ -1,15 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { handleErrors, safeCredentials } from '@utils/fetchHelper';
+import './stylesheets/layout.scss';
 
-const Layout = (props) => {
+const Layout = ( props ) => {
+
+  const [ authenticated, setAuthenticated ] = useState(false);
+
+  const handleLogout = (e) => {
+    if (e) { e.preventDefault() }
+  
+    fetch('api/sessions', safeCredentials({
+      method: 'DELETE',
+    }))
+    .then(handleErrors)
+    .then(data => {
+      if (data.success) {
+        const params = new URLSearchParams(window.location.search);
+        const redirect_url = params.get('redirect_url') || '/';
+        window.location = redirect_url;
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  };
+
+  useEffect(() => {
+    fetch('/api/authenticated')
+    .then(handleErrors)
+    .then(data => {
+      setAuthenticated(data.authenticated)
+    })
+  }, []);
+
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand navbar-light bg-light">
-        <div className="container-fluid">
+        <div className="container-fluid mx-5">
           <a className="navbar-brand text-danger" href="/">Airbnb</a>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto">
+            <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <a className="nav-link" href="/">Home</a>
+                {authenticated ? 
+                  <a className="nav-link anchor-link" onClick={handleLogout}>Logout</a> : 
+                  <a className="nav-link anchor-link" href="/login">Login</a> 
+                }
               </li>
             </ul>
           </div>
@@ -17,7 +52,7 @@ const Layout = (props) => {
       </nav>
       {props.children}
       <footer className="p-3 bg-light">
-        <div>
+        <div className="mx-5">
           <p className="me-3 mb-0 text-secondary">Full Stack Airbnb Clone</p>
         </div>
       </footer>
