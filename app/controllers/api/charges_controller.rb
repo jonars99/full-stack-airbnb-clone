@@ -42,7 +42,8 @@ module Api
     end
 
     def mark_complete
-      endpoint_secret = END['SRIPE_MARK_COMPLETE_WEBHOOK_SIGNING_SECRET']
+      endpoint_secret = ENV['STRIPE_MARK_COMPLETE_WEBHOOK_SIGNING_SECRET']
+
       event = nil
 
       begin
@@ -70,6 +71,6 @@ module Api
       
       return head :bad_request
     end
-    
+
   end
 end
