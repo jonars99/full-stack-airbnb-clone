@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
+import { authenticateUser } from '@utils/requests';
 import './stylesheets/layout.scss';
 
 const Layout = ( props ) => {
@@ -26,17 +27,15 @@ const Layout = ( props ) => {
   };
 
   useEffect(() => {
-    fetch('/api/authenticated')
-    .then(handleErrors)
-    .then(data => {
-      setAuthenticated(data.authenticated)
-    })
+    authenticateUser(function (data) {
+      setAuthenticated(data.authenticated);
+    });
   }, []);
 
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand navbar-light bg-light">
-        <div className="container-fluid mx-5">
+        <div className="container">
           <a className="navbar-brand text-danger" href="/">Airbnb</a>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto">
