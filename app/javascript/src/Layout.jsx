@@ -6,6 +6,7 @@ import './stylesheets/layout.scss';
 const Layout = ( props ) => {
 
   const [ authenticated, setAuthenticated ] = useState(false);
+  const [ currentUser, setCurrentUser ] = useState("");
 
   const handleLogout = (e) => {
     if (e) { e.preventDefault() }
@@ -29,24 +30,39 @@ const Layout = ( props ) => {
   useEffect(() => {
     authenticateUser(function (data) {
       setAuthenticated(data.authenticated);
+      setCurrentUser(data.username);
     });
   }, []);
 
   return (
     <React.Fragment>
-      <nav className="navbar navbar-expand navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
           <a className="navbar-brand text-danger" href="/">Airbnb</a>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                {authenticated ? 
-                  <a className="nav-link anchor-link" onClick={handleLogout}>Logout</a> : 
-                  <a className="nav-link anchor-link" href="/login">Login</a> 
-                }
-              </li>
+
+              {authenticated ? 
+                // if user is logged in - dropdown with username and links to bookings/listings etc.
+                <li className="nav-item dropdown me-2">
+                  <a className="nav-link dropdown-toggle"id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@{currentUser}</a>
+                  <ul id="dropMenu" className="dropdown-menu" aria-labelledby="userDropdown">
+                    <a className="dropdown-item" href="/mybookings">My Bookings</a>
+                    <a className="dropdown-item" href="#">My Listings</a>
+                    <a className="dropdown-item" href="#">Make a New Listing</a>
+                    <div className="dropdown-divider"></div>
+                    <a className="dropdown-item" href="/" onClick={handleLogout}>Log Out</a>
+                  </ul>
+                </li>
+                : 
+                // user is logged out - show log in button
+                <li className="nav-item me-2">
+                  <a className="nav-link" href="/login">Log in</a> 
+                </li>
+              }
+
             </ul>
-          </div>
+
         </div>
       </nav>
       {props.children}
