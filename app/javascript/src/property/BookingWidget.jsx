@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
+import { authenticateUser } from "@utils/requests";
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
@@ -22,17 +23,6 @@ const BookingWidget = ({property_id, price_per_night}) => {
     startDate: null,
     endDate: null
   });
-
-  // authenticate user
-  const isUserLoggedIn = () => {
-    fetch('/api/authenticated')
-    .then(handleErrors)
-    .then(data => {
-      setUserStatus({
-        authenticated: data.authenticated,
-      });
-    });
-  };
 
   // get existing bookings
   const getBookings = () => {
@@ -96,7 +86,11 @@ const BookingWidget = ({property_id, price_per_night}) => {
 
   // check user logged in and get existing bookings
   useEffect(() => {
-    isUserLoggedIn()
+    authenticateUser(function (data) {
+      setUserStatus({
+        authenticated: data.authenticated,
+      });
+    });
     getBookings();
   }, []);
 
