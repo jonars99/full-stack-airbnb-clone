@@ -6,6 +6,10 @@
 import Rails from "@rails/ujs"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import "@popperjs/core"
+import "jquery"
+import "bootstrap/dist/css/bootstrap"
+import "bootstrap/dist/js/bootstrap"
 
 Rails.start()
 ActiveStorage.start()

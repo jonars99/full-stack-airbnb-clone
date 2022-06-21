@@ -1003,6 +1003,11 @@
     "mkdirp" "^1.0.4"
     "rimraf" "^3.0.2"
 
+"@popperjs/core@^2.10.2", "@popperjs/core@^2.11.5":
+  "integrity" "sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw=="
+  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.5.tgz"
+  "version" "2.11.5"
+
 "@rails/actioncable@^6.0.0":
   "integrity" "sha512-bV4/Q7NweGFm7t3GvUFm19UF2WKmcvlOXy7AxMWEZCwDxQLagAXhUpKb1AJ6Rg88cPHqXSQHaGKr84lIMd607A=="
   "resolved" "https://registry.npmjs.org/@rails/actioncable/-/actioncable-6.1.5.tgz"
@@ -4131,6 +4136,11 @@
     "@types/node" "*"
     "merge-stream" "^2.0.0"
     "supports-color" "^7.0.0"
+
+"jquery@^3.6.0":
+  "integrity" "sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw=="
+  "resolved" "https://registry.npmjs.org/jquery/-/jquery-3.6.0.tgz"
+  "version" "3.6.0"
 
 "js-tokens@^3.0.0 || ^4.0.0", "js-tokens@^4.0.0":
   "integrity" "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
