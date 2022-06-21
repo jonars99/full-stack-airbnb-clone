@@ -12,4 +12,8 @@ class StaticPagesController < ApplicationController
     render 'login'
   end
 
+  def users_bookings
+    render 'users_booking'
+  end
+
 end

@@ -30,6 +30,17 @@ module Api
       render 'api/bookings/index'
     end
 
+    def get_user_bookings
+      user = User.find_by(username: params[:username])
+      
+      if user
+        @bookings = user.bookings.all.order(start_date: :asc)
+        render 'api/bookings/index_by_user'
+      else 
+        render json: { error: 'cannot find user' }
+      end
+    end
+
     private
 
     def booking_params
