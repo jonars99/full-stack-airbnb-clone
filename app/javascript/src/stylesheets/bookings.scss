@@ -1,0 +1,26 @@
+
+.property-booking {
+  height: 200px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 1px #e0e0e0;
+
+  .property-img {
+    width: 285px;
+    height: 200px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+.past-property-booking {
+  height: 100px;
+
+  .past-property-img {
+    height: 100px;
+  }
+
+  small {
+    font-size: 1vw;
+  }
+
+}
