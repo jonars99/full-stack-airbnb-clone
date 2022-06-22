@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../Layout';
 import { handleErrors } from '@utils/fetchHelper';
 import { authenticateUser } from '@utils/requests';
+import '@src/stylesheets/bookings.scss';
 
 const UsersBookings = () => {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [myBookings, setMyBookings] = useState({
     bookings: [],
-    properties: [],
   });
 
   // get bookings made by user
@@ -23,15 +23,6 @@ const UsersBookings = () => {
       })
   };
 
-  // property data for bookings
-  const getPropertyInfo = (property_id) => {
-    fetch(`/api/properties/${property_id}`)
-      .then(handleErrors)
-      .then(data => {
-        console.log(data);
-      })
-  }
-
   // fetch current user and their bookings
   useEffect(() => {
     authenticateUser(function (data) {
@@ -42,65 +33,81 @@ const UsersBookings = () => {
 
   if (authenticated) {
     // filter bookings depending on date
-    const futureBookings = myBookings.bookings.filter(booking => new Date(booking.start_date) - new Date() > 0)
-    const pastBookings = myBookings.bookings.filter(booking => new Date(booking.start_date) - new Date() <= 0)
+    const futureBookings = myBookings.bookings.filter(booking => new Date(booking.start_date) - new Date() > 0);
+    const pastBookings = myBookings.bookings.filter(booking => new Date(booking.start_date) - new Date() <= 0);
 
     return (
       <Layout>
 
-        <div className="container pt-4">
-          {/*         {myBookings.bookings.forEach(booking => {
-            getPropertyInfo(booking.property_id);
-          })} */}
-          <h5>Upcoming Trips</h5>
+        <div className="container py-4">
+
+          <h5>Your Bookings</h5>
+
           {futureBookings.length == 0 ? 
-            <div className="container">
-              <div className="row">
-                <div className="col-12 col-md-9 col-lg-6 mx-auto my-4">
-                  <div className="border rounded p-4 text-center">
-                    <p>You have no upcoming reservations 🙁</p>
-                    <a className="btn btn-danger" href="/" role="button">Book a place to stay!</a>
-                  </div>
+            // suggest booking a property when user has no bookings
+            <div className="row">
+              <div className="col-12 col-md-9 col-lg-6 mx-auto my-4">
+                <div className="border rounded p-4 text-center">
+                  <p>You have no upcoming reservations 🙁</p>
+                  <a className="btn btn-danger" href="/" role="button">Book a place to stay!</a>
                 </div>
               </div>
             </div>
             :
+            // show users future bookings
             futureBookings.map(booking => {
               return (
-                <div key={booking.id} className="col-6 ms-4 mb-4 property">
-                  <a href={`http://localhost:3000/property/${booking.property_id}`} className="text-body text-decoration-none">
-                    <h6 className="mb-0">{booking.property_id}</h6>
-                    <p className="mb-0">from {booking.start_date} to {booking.end_date}</p>
-                  </a>
+
+                <div key={booking.id} className="row my-4 ps-5">
+                  <div className="col-8 gx-0 property-booking">
+                    <a href={`/property/${booking.property_id}`} className="text-body text-decoration-none d-flex justify-content-between">
+
+                      <span className="p-3 d-flex flex-column justify-content-center">
+                        <h6>{booking.property.title} <span className="fw-normal">in</span> {booking.property.city}</h6>
+                        <small>{booking.property.property_type} hosted by {booking.property.host}</small>
+                        <hr className="m-1"></hr>
+                        <small>from {booking.start_date} to {booking.end_date}</small>
+                      </span>
+
+                      <img className="property-img" src={`${booking.property.image_url}`} alt="property image and link"/>
+                    </a>
+
+                  </div>
                 </div>
               )
             })
           }
 
-          <h5>Past Trips</h5>
-{/*           {pastBookings.map(booking => {
-              return (
-                <div key={booking.id} className="col-6 ms-4 mb-4 property">
-                  <a href={`http://localhost:3000/property/${booking.property_id}`} className="text-body text-decoration-none">
-                    <h6 className="mb-0">{booking.property_id}</h6>
-                    <p className="mb-0">from {booking.start_date} to {booking.end_date}</p>
-                  </a>
-                </div>
-              )
-            })
-          } */}
-          {pastBookings.length == 0 ? <p className="text-secondary ms-4">You have no past reservations</p> : 
-            pastBookings.map(booking => {
-              return (
-                <div key={booking.id} className="col-6 ms-4 mb-4 property">
-                  <a href={`http://localhost:3000/property/${booking.property_id}`} className="text-body text-decoration-none">
-                    <h6 className="mb-0">{booking.property_id}</h6>
-                    <p className="mb-0">from {booking.start_date} to {booking.end_date}</p>
-                  </a>
-                </div>
-              )
-            })
-          }
+          <h5>Past Bookings</h5>
+
+            <div className="row ps-5">
+
+              {pastBookings.length == 0 ? 
+                // no past bookings
+                <p className="text-secondary ms-4">You have no past bookings</p> 
+                :
+                // show users past bookings if any
+                pastBookings.map(booking => {
+                  return (
+                    <div key={booking.id} className="col-4 g-4 past-property-booking p-0">
+
+                      <a href={`/property/${booking.property_id}`} className="text-body text-decoration-none d-flex">
+                        <img className="past-property-img rounded" src={`${booking.property.image_url}`} alt="property image and link"/>
+                        
+                        <span className="d-flex flex-column justify-content-center ps-2">
+                          <h6 className="mb-1">{booking.property.city}</h6>
+                          <small className="text-secondary">Hosted by {booking.property.host}</small>
+                          <small className="text-secondary">{booking.start_date} — {booking.end_date}</small>
+                        </span>
+                      </a>
+
+                    </div>
+                  )
+                })
+              }
+        
+            </div>
+
         </div>
       </Layout>
     )
