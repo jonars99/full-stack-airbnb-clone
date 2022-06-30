@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../Layout';
 import { handleErrors } from '@utils/fetchHelper';
 import { authenticateUser } from '@utils/requests';
@@ -56,22 +56,35 @@ const UsersBookings = () => {
             :
             // show users future bookings
             futureBookings.map(booking => {
+              console.log('futurebookings', booking.property.title, booking.paid);
               return (
+                <div key={booking.id} className="row my-4 justify-content-center">
+                  <div className="col-9 gx-0 property-booking my-1">
 
-                <div key={booking.id} className="row my-4 ps-5">
-                  <div className="col-8 gx-0 property-booking">
-                    <a href={`/property/${booking.property_id}`} className="text-body text-decoration-none d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
+                      
+                      <div className="p-4 ps-5">
+                        <a href={`/property/${booking.property_id}`} className="text-body text-decoration-none">
+                          <h6 className="m-0">{booking.property.title} <span className="fw-normal">in</span> {booking.property.city}</h6>
+                          <small>{booking.property.property_type} hosted by {booking.property.host}</small>
+                        </a>
 
-                      <span className="p-3 d-flex flex-column justify-content-center">
-                        <h6>{booking.property.title} <span className="fw-normal">in</span> {booking.property.city}</h6>
-                        <small>{booking.property.property_type} hosted by {booking.property.host}</small>
-                        <hr className="m-1"></hr>
-                        <small>from {booking.start_date} to {booking.end_date}</small>
-                      </span>
+                        <hr className="my-2"></hr>
 
-                      <img className="property-img" src={`${booking.property.image_url}`} alt="property image and link"/>
-                    </a>
+                        <small className="mb-3">from {booking.start_date} to {booking.end_date}</small>
+                        {booking.paid ? 
+                        <button className="btn btn-success btn-sm ms-5 px-5">paid</button> 
+                         : 
+                        <button className="btn btn-danger btn-sm ms-5">complete checkout</button>}
+                      </div>
+                      
+                      <div>
+                        <a href={`/property/${booking.property_id}`} className="text-body text-decoration-none">
+                          <img className="property-img" src={`${booking.property.image_url}`} alt="property image and link"/>
+                        </a>
+                      </div>
 
+                    </div>
                   </div>
                 </div>
               )

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # Static pages
   get '/property/:id'  => 'static_pages#property'
   get '/login'         => 'static_pages#login'
-  get '/mybookings'      => 'static_pages#users_bookings'
+  get '/mybookings'    => 'static_pages#users_bookings'
 
   namespace :api do
     resources :users, only: [:create]
@@ -21,9 +21,9 @@ Rails.application.routes.draw do
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
     get '/:username/bookings'       => 'bookings#get_user_bookings'
 
-  end
+    # Stripe Webhook
+    post 'charges/mark_complete' => 'charges#mark_complete'
 
-  # Stripe Webhook
-  post 'charges/mark_complete' => 'charges#mark_complete'
+  end
 
 end
