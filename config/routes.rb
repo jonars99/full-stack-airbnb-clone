@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/property/:id'  => 'static_pages#property'
   get '/login'         => 'static_pages#login'
   get '/mybookings'    => 'static_pages#users_bookings'
+  get '/booking/:id/success' => 'static_pages#booking_success'
 
   namespace :api do
     resources :users, only: [:create]
@@ -19,8 +20,9 @@ Rails.application.routes.draw do
 
     # Get bookings 
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
-    get '/:username/bookings'       => 'bookings#get_user_bookings'
-
+    get '/:username/bookings'      => 'bookings#get_user_bookings'
+    get '/booked/:id'              => 'bookings#get_booked_property'
+ 
     # Stripe Webhook
     post 'charges/mark_complete' => 'charges#mark_complete'
 

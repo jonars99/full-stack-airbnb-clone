@@ -41,6 +41,13 @@ module Api
       end
     end
 
+    def get_booked_property
+      @booking = Booking.find_by(id: params[:id])
+      property = @booking.property
+      return render json: { error: 'cannot find property' }, status: :not_found if !property
+      render 'api/bookings/booked_property'
+    end
+
     private
 
     def booking_params
