@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../Layout';
-import { handleErrors } from '@utils/fetchHelper';
+import { handleErrors, safeCredentials } from '@utils/fetchHelper';
 import { authenticateUser } from '@utils/requests';
 import '@src/stylesheets/bookings.scss';
 
@@ -22,6 +22,30 @@ const UsersBookings = () => {
         })
       })
   };
+
+  const initiateStripeCheckout = (booking_id) => {
+    return fetch(`/api/charges?booking_id=${booking_id}&cancel_url=${window.location.pathname}`, safeCredentials({
+      method: 'POST',
+    }))
+    .then(handleErrors)
+    .then(response => {
+      const stripe = Stripe(`${process.env.STRIPE_PUBLISHABLE_KEY}`);
+
+      stripe.redirectToCheckout({
+        sessionId: response.charge.checkout_session_id,
+      }).then((result) => {
+        console.log('result error', result.error.message);
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  const completeBooking = (e) => {
+    e.preventDefault();
+    initiateStripeCheckout(e.target.value);
+  }
 
   // fetch current user and their bookings
   useEffect(() => {
@@ -56,7 +80,6 @@ const UsersBookings = () => {
             :
             // show users future bookings
             futureBookings.map(booking => {
-              console.log('futurebookings', booking.property.title, booking.paid);
               return (
                 <div key={booking.id} className="row my-4 justify-content-center">
                   <div className="col-9 gx-0 property-booking my-1">
@@ -75,7 +98,7 @@ const UsersBookings = () => {
                         {booking.paid ? 
                         <button className="btn btn-success btn-sm ms-5 px-5">paid</button> 
                          : 
-                        <button className="btn btn-danger btn-sm ms-5">complete checkout</button>}
+                        <button className="btn btn-danger btn-sm ms-5" value={booking.id} onClick={completeBooking}>complete checkout</button>}
                       </div>
                       
                       <div>
