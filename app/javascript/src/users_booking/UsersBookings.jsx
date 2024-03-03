@@ -3,6 +3,7 @@ import Layout from '../Layout';
 import { handleErrors, safeCredentials } from '@utils/fetchHelper';
 import { authenticateUser } from '@utils/requests';
 import '@src/stylesheets/bookings.scss';
+import moment from 'moment';
 
 const UsersBookings = () => {
 
@@ -94,11 +95,11 @@ const UsersBookings = () => {
 
                         <hr className="my-2"></hr>
 
-                        <small className="mb-3">from {booking.start_date} to {booking.end_date}</small>
+                        <small className="mb-3 text-secondary">{moment(booking.start_date).format('MMM Do')} - {moment(booking.end_date).format('MMM Do YYYY')}</small>
                         {booking.paid ? 
                         <button className="btn btn-success btn-sm ms-5 px-5">paid</button> 
                          : 
-                        <button className="btn btn-danger btn-sm ms-5" value={booking.id} onClick={completeBooking}>complete checkout</button>}
+                        <button className="btn btn-danger btn-sm ms-4" value={booking.id} onClick={completeBooking}>complete checkout</button>}
                       </div>
                       
                       <div>
@@ -133,7 +134,7 @@ const UsersBookings = () => {
                         <span className="d-flex flex-column justify-content-center ps-2">
                           <h6 className="mb-1">{booking.property.city}</h6>
                           <small className="text-secondary">Hosted by {booking.property.host}</small>
-                          <small className="text-secondary">{booking.start_date} — {booking.end_date}</small>
+                          <small className="text-secondary">{moment(booking.start_date).format('MMM Do')} - {moment(booking.end_date).format('MMM Do YYYY')}</small>
                         </span>
                       </a>
 

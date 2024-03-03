@@ -14,13 +14,13 @@ export function getMetaContent(name) {
   return header && header.content;
 }
 
-export function getAuthenticityToekn() {
+export function getAuthenticityToken() {
   return getMetaContent('csrf-token');
 }
 
 export function authenticityHeader(options = {}) {
   return Object.assign(options, {
-    'X-CSRF-Token': getAuthenticityToekn(),
+    'X-CSRF-Token': getAuthenticityToken(),
     'X-Requested-Wtih': 'XMLHttpRequest',
   });
 }

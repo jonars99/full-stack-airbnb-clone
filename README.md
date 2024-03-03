@@ -1,6 +1,24 @@
-# README
+# Full Stack Airbnb Clone
 
-Visit [Altcademy Classroom](https://www.altcademy.com/classroom/) for more instructions.
+Built with **React**, **Ruby on Rails** and **Sass** using **Stripe** for payment. A full stack project for altcademy's web development course.
+
+## Features
+
+![screenshot of homepage](app/assets/images/homepage-start.png "screenshot of homepage")
+
+* User authentication
+* The user can **book properties**
+* **[Stripe](https://docs.stripe.com/)** integration for payments
+
+## Versions
+
+* Ruby 3.0.3
+* Rails 6.1.5
+* Node 17.0.23
+* Webpacker 5.4.3
+* Bootstrap 5
+
+## Local development
 
 1. Install GEMS
 
